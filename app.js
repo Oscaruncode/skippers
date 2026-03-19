@@ -1,19 +1,53 @@
+function cleanOnlineList(raw) {
+  return raw
+    .split("\n")
+    .filter(line => line.includes('"'))
+    .map(line => {
+      const parts = line.split("\t");
+      const name = parts[0]?.replace(/"/g, "").trim();
+      const status = parts[1]?.replace(/"/g, "").trim();
+
+      return {
+        name,
+        isOnline: status === "Online"
+      };
+    })
+    .filter(x => x.name);
+}
+
+function cleanBattleList(raw) {
+  return raw
+    .split("\n")
+    .map(x => x.trim())
+    .filter(x => x.length > 0);
+}
+
+function analyzeData(onlineRaw, battleRaw) {
+  const onlineList = cleanOnlineList(onlineRaw);
+  const battleList = cleanBattleList(battleRaw);
+
+  const onlineNow = onlineList.filter(u => u.isOnline).map(u => u.name);
+
+  const battleSet = new Set(battleList);
+  const onlineSet = new Set(onlineNow);
+
+  return {
+    participated: onlineNow.filter(n => battleSet.has(n)),
+    skippers: onlineNow.filter(n => !battleSet.has(n)),
+    offlineButInBattle: battleList.filter(n => !onlineSet.has(n)),
+    totalOnline: onlineNow.length,
+    totalBattle: battleList.length
+  };
+}
+
 async function analyze() {
   const online = document.getElementById("online").value;
   const battle = document.getElementById("battle").value;
 
   renderPreview(online, battle);
 
-  const res = await fetch("/analyze", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ online, battle })
-  });
-
-  const data = await res.json();
-  renderResults(data);
+    const data = analyzeData(online, battle);
+    renderResults(data);
 }
 
 // ===== PREVIEW =====
