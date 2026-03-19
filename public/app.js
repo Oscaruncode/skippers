@@ -20,18 +20,42 @@ async function analyze() {
 function renderPreview(online, battle) {
   const preview = document.getElementById("preview");
 
-  const onlineList = online.split("\n").slice(0, 20);
-  const battleList = battle.split("\n").slice(0, 20);
+  // ===== LIMPIAR ONLINE =====
+  const onlineList = online
+    .split("\n")
+    .map(line => {
+      const match = line.match(/"([^"]*)"/g);
+      if (!match) return null;
+
+      const values = match.map(x => x.replace(/"/g, ""));
+      return {
+        name: values[0],
+        status: values[1]
+      };
+    })
+    .filter(x => x && x.name && x.name !== "Character Name");
+
+  // ===== LIMPIAR PELEA =====
+  const battleList = battle
+    .split("\n")
+    .map(x => x.trim())
+    .filter(x => x.length > 0);
 
   preview.innerHTML = `
+    <!-- ONLINE -->
     <div class="col-md-6">
       <div class="card bg-secondary text-light">
         <div class="card-header">👀 Preview ONLINE</div>
         <div class="card-body p-0">
           <ul class="list-group list-group-flush">
-            ${onlineList.map(x => `
-              <li class="list-group-item bg-dark text-light border-secondary">
-                ${x}
+            ${onlineList.map(user => `
+              <li class="list-group-item bg-dark text-light border-secondary d-flex justify-content-between">
+                ${user.name}
+                ${
+                  user.status === "Online"
+                    ? '<span class="badge bg-success">ONLINE</span>'
+                    : '<span class="badge bg-secondary">OFF</span>'
+                }
               </li>
             `).join("")}
           </ul>
@@ -39,20 +63,22 @@ function renderPreview(online, battle) {
       </div>
     </div>
 
-    <div class="col-md-6">
-      <div class="card bg-secondary text-light">
-        <div class="card-header">👀 Preview PELEA</div>
-        <div class="card-body p-0">
-          <ul class="list-group list-group-flush">
-            ${battleList.map(x => `
-              <li class="list-group-item bg-dark text-light border-secondary">
-                ${x}
-              </li>
-            `).join("")}
-          </ul>
-        </div>
-      </div>
+    <!-- PELEA -->
+<div class="col-md-6">
+  <div class="card bg-secondary text-light">
+    <div class="card-header">👀 Preview en PELEA</div>
+    <div class="card-body p-0">
+      <ul class="list-group list-group-flush">
+        ${battleList.map(name => `
+          <li class="list-group-item bg-dark text-light border-secondary d-flex justify-content-between align-items-center">
+            ${name}
+            <span class="badge bg-danger">FIGHTING</span>
+          </li>
+        `).join("")}
+      </ul>
     </div>
+  </div>
+</div>
   `;
 }
 
@@ -85,7 +111,7 @@ function renderResults(data) {
       <div class="card bg-secondary text-light text-center p-3">
         <h6 class="text-secondary text-light">En pelea</h6>
         <h2>${data.totalBattle}</h2>
-      </div>
+      </div>.
     </div>
 
     <div class="col-md-6"></div>
