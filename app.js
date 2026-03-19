@@ -174,7 +174,7 @@ function renderResults(data) {
     <div class="col-md-4">
       <div class="card bg-secondary text-light">
         <div class="card-header text-warning">
-          ❌ Offline pero fueron
+          ❌ Offline pero fueron (llegaron despues de la captura)
         </div>
         <div class="card-body p-0">
           ${renderList(data.offlineButInBattle, "warning", "LATE")}
