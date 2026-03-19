@@ -1,0 +1,55 @@
+body {
+  background: #0f172a;
+}
+
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.card-header {
+  font-weight: bold;
+}
+
+.textarea-custom {
+  height: 250px;
+  resize: none;
+  background: #000000;
+  color: #fff;
+  border: 1px solid #334155;
+}
+
+.badge-online {
+  background-color: #22c55e;
+}
+
+.badge-skipper {
+  background-color: #ef4444;
+}
+
+.badge-ok {
+  background-color: #3b82f6;
+}
+
+.list-box {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.list-item {
+  padding: 5px 10px;
+  border-bottom: 1px solid #1e293b;
+}
+
+/* Asegurar que cada item sea visible */
+.list-item {
+  padding: 5px 10px;
+  border-bottom: 1px solid #1e293b;
+  color: #e2e8f0; /* 👈 ESTA LINEA ES LA CLAVE */
+}
+
+/* Opcional: hover bonito */
+.list-item:hover {
+  background: #1e293b;
+}

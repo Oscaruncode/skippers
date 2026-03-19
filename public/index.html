@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>🔥 Skippers Detector</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-dark text-light">
+
+  <div class="container py-4">
+
+    <!-- HEADER -->
+    <div class="text-center mb-4">
+      <h1 class="fw-bold text-warning">
+        <i class="bi bi-fire"></i> Skippers Detector
+      </h1>
+      <p class="text-secondary">Detecta quién se saltó la pelea 😈</p>
+    </div>
+
+    <!-- INPUTS -->
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="card bg-secondary h-100">
+          <div class="card-header">🟢 Lista ONLINE</div>
+          <div class="card-body">
+            <textarea id="online" class="form-control textarea-custom" placeholder="Pega lista ONLINE"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card bg-secondary h-100">
+          <div class="card-header">⚔️ Lista PELEA</div>
+          <div class="card-body">
+            <textarea id="battle" class="form-control textarea-custom" placeholder="Pega lista PELEA"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUTTON -->
+    <div class="text-center my-4">
+      <button onclick="analyze()" class="btn btn-warning btn-lg px-5">
+        <i class="bi bi-search"></i> Analizar
+      </button>
+    </div>
+
+    <!-- PREVIEW -->
+    <div id="preview" class="row g-3 mb-4"></div>
+
+    <!-- RESULTS -->
+    <div id="results" class="row g-3"></div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
