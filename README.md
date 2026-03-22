@@ -108,6 +108,69 @@ La herramienta mostrará:
 
 ---
 
+## ⚙️ ¿Cómo funciona internamente?
+
+La herramienta está construida completamente en JavaScript y funciona en el navegador sin necesidad de backend.
+
+---
+
+### 1. Limpieza de datos
+
+Primero se procesan las dos entradas:
+
+- La lista de conectados:
+  - Se separa por líneas
+  - Se extrae el nombre del jugador
+  - Se identifica si está en estado `"Online"`
+
+- La lista de pelea:
+  - Se limpia eliminando espacios vacíos
+  - Se convierte en un arreglo simple de nombres
+
+---
+
+### 2. Filtrado de jugadores online
+
+Solo se tienen en cuenta los jugadores que estaban realmente conectados:
+
+```js
+const onlineNow = onlineList.filter(u => u.isOnline).map(u => u.name);
+3. Comparación eficiente con Sets
+
+Para optimizar la búsqueda, se usan estructuras Set:
+
+const battleSet = new Set(battleList);
+const onlineSet = new Set(onlineNow);
+
+Esto permite hacer comparaciones rápidas en tiempo constante.
+
+4. Clasificación de jugadores
+
+Se generan tres grupos principales:
+
+✅ Participaron
+
+Jugadores que están en ambas listas:
+
+onlineNow.filter(n => battleSet.has(n));
+⚠️ Skippers
+
+Jugadores que estaban online pero no fueron a la pelea:
+
+onlineNow.filter(n => !battleSet.has(n));
+❌ Offline pero fueron
+
+Jugadores que aparecen en la pelea pero no estaban online al inicio:
+
+battleList.filter(n => !onlineSet.has(n));
+5. Renderizado
+
+Finalmente, los resultados se muestran dinámicamente en pantalla usando:
+
+HTML
+Bootstrap
+Renderizado dinámico con JavaScript
+
 ## 🚀 Autor
 
-Creado por **Oscar** para facilitar el control de asistencia en CTA 😎
+Creado por **OscarUnCode** para facilitar el control de asistencia en CTA 😎
